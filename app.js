@@ -1,6 +1,6 @@
 // Initialize Supabase - REPLACE THESE WITH YOUR ACTUAL VALUES!
-const supabaseUrl = 'https://your-project-id.supabase.co';
-const supabaseKey = 'your-anon-public-key-here';
+const supabaseUrl = 'https://ssvirocnzzunatlrqlnf.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzdmlyb2Nuenp1bmF0bHJxbG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0OTU0NzQsImV4cCI6MjA3NzA3MTQ3NH0.Bt5lH4jH2hkOO5zW3b4KCQyCltNp_fdMJ4Ib8PRu3oU';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Global variables
