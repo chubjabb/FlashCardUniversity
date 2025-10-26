@@ -9,3 +9,11 @@ window.firebaseConfig = {
   messagingSenderId: "SENDER_ID",
   appId: "APP_ID"
 };
+const firebaseConfig = {
+  apiKey: "AIzaSyDPoJsruAuUCbrbrBlh4bYQQcb3ztxLurU",
+  authDomain: "flashcarduniversity-d460b.firebaseapp.com",
+  projectId: "flashcarduniversity-d460b",
+  storageBucket: "flashcarduniversity-d460b.firebasestorage.app",
+  messagingSenderId: "439328394787",
+  appId: "1:439328394787:web:d99937f47aa8a03b896b96"
+};
