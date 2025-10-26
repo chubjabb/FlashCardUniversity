@@ -1,6 +1,11 @@
 // Global variables
 let decks = [];
 let supabaseClient;
+let currentFilters = {
+    search: '',
+    university: '',
+    courseCode: ''
+};
 
 // Wait for the page to fully load before initializing Supabase
 document.addEventListener('DOMContentLoaded', function() {
@@ -10,10 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
 async function initializeApp() {
     try {
         // Initialize Supabase - REPLACE THESE WITH YOUR ACTUAL VALUES!
-        const supabaseUrl = 'https://ssvirocnzzunatlrqlnf.supabase.co'; // Replace with your Supabase URL
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzdmlyb2Nuenp1bmF0bHJxbG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0OTU0NzQsImV4cCI6MjA3NzA3MTQ3NH0.Bt5lH4jH2hkOO5zW3b4KCQyCltNp_fdMJ4Ib8PRu3oU'; // Replace with your Supabase anon key
+        const supabaseUrl = 'YOUR_SUPABASE_URL';
+        const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
         
-        // Create Supabase client
         supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
         
         // Test connection
@@ -27,9 +31,8 @@ async function initializeApp() {
             showMessage('❌ Database connection failed', 'error');
         } else {
             console.log('Supabase connected successfully!');
-            // Load decks and set up event listeners
+            setupEventListeners();
             loadDecks();
-            document.getElementById('uploadForm').addEventListener('submit', handleUpload);
         }
     } catch (error) {
         console.error('Initialization error:', error);
@@ -37,10 +40,30 @@ async function initializeApp() {
     }
 }
 
+function setupEventListeners() {
+    // Upload form
+    document.getElementById('uploadForm').addEventListener('submit', handleUpload);
+    
+    // Search and filter inputs
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        currentFilters.search = e.target.value;
+        applyFilters();
+    });
+    
+    document.getElementById('universityFilter').addEventListener('change', function(e) {
+        currentFilters.university = e.target.value;
+        applyFilters();
+    });
+    
+    document.getElementById('courseCodeFilter').addEventListener('input', function(e) {
+        currentFilters.courseCode = e.target.value.toUpperCase();
+        applyFilters();
+    });
+}
+
 async function handleUpload(event) {
     event.preventDefault();
     
-    // Check if Supabase is initialized
     if (!supabaseClient) {
         showMessage('❌ App not ready yet. Please wait...', 'error');
         return;
@@ -52,6 +75,9 @@ async function handleUpload(event) {
     // Get form data
     const formData = new FormData(event.target);
     const deckName = formData.get('deckName');
+    const university = formData.get('university');
+    const courseCode = formData.get('courseCode').toUpperCase();
+    const courseName = formData.get('courseName');
     const description = formData.get('description');
     const fileInput = document.querySelector('input[name="ankiFile"]');
     
@@ -101,6 +127,9 @@ async function handleUpload(event) {
             .insert([
                 {
                     name: deckName,
+                    university: university,
+                    course_code: courseCode,
+                    course_name: courseName,
                     description: description,
                     file_name: file.name,
                     file_url: publicUrl,
@@ -131,7 +160,6 @@ async function handleUpload(event) {
 async function loadDecks() {
     const decksList = document.getElementById('decks-list');
     
-    // Check if Supabase is initialized
     if (!supabaseClient) {
         decksList.innerHTML = '<div class="error">App not ready yet</div>';
         return;
@@ -148,7 +176,7 @@ async function loadDecks() {
         if (error) throw error;
         
         decks = data || [];
-        renderDecks();
+        applyFilters(); // This will render with current filters
         
     } catch (error) {
         console.error('Error loading decks:', error);
@@ -156,22 +184,63 @@ async function loadDecks() {
     }
 }
 
-function renderDecks() {
+function applyFilters() {
+    let filteredDecks = [...decks];
+    
+    // Apply search filter
+    if (currentFilters.search) {
+        const searchTerm = currentFilters.search.toLowerCase();
+        filteredDecks = filteredDecks.filter(deck => 
+            deck.name.toLowerCase().includes(searchTerm) ||
+            deck.course_name.toLowerCase().includes(searchTerm) ||
+            deck.course_code.toLowerCase().includes(searchTerm) ||
+            deck.description.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    // Apply university filter
+    if (currentFilters.university) {
+        filteredDecks = filteredDecks.filter(deck => 
+            deck.university === currentFilters.university
+        );
+    }
+    
+    // Apply course code filter
+    if (currentFilters.courseCode) {
+        filteredDecks = filteredDecks.filter(deck => 
+            deck.course_code.includes(currentFilters.courseCode)
+        );
+    }
+    
+    renderDecks(filteredDecks);
+    updateFilterStats(filteredDecks);
+}
+
+function renderDecks(decksToRender) {
     const decksList = document.getElementById('decks-list');
     
-    if (decks.length === 0) {
-        decksList.innerHTML = `
+    if (decksToRender.length === 0) {
+        const noResultsHtml = `
             <div style="text-align: center; padding: 40px; color: #666;">
-                <h3>No decks yet</h3>
-                <p>Be the first to upload an Anki deck!</p>
+                <h3>No decks found</h3>
+                <p>${decks.length === 0 ? 'Be the first to upload an Anki deck!' : 'Try adjusting your search filters'}</p>
             </div>
         `;
+        decksList.innerHTML = noResultsHtml;
         return;
     }
     
-    decksList.innerHTML = decks.map(deck => `
+    decksList.innerHTML = decksToRender.map(deck => `
         <div class="deck">
-            <h3>${escapeHtml(deck.name)}</h3>
+            <div class="deck-header">
+                <div>
+                    <h3>${escapeHtml(deck.name)}</h3>
+                    <div class="deck-meta">
+                        <span class="university-badge">${escapeHtml(deck.university)}</span>
+                        <span class="course-badge"><strong>${escapeHtml(deck.course_code)}</strong>: ${escapeHtml(deck.course_name)}</span>
+                    </div>
+                </div>
+            </div>
             <p>${escapeHtml(deck.description)}</p>
             <div class="stats">
                 <strong>File:</strong> ${escapeHtml(deck.file_name)} 
@@ -184,6 +253,45 @@ function renderDecks() {
             </button>
         </div>
     `).join('');
+}
+
+function updateFilterStats(filteredDecks) {
+    const filterResults = document.getElementById('filterResults');
+    
+    if (currentFilters.search || currentFilters.university || currentFilters.courseCode) {
+        const totalDecks = decks.length;
+        const showingDecks = filteredDecks.length;
+        
+        let filterText = `Showing ${showingDecks} of ${totalDecks} decks`;
+        
+        if (currentFilters.search) {
+            filterText += ` • Search: "${currentFilters.search}"`;
+        }
+        if (currentFilters.university) {
+            filterText += ` • University: ${currentFilters.university}`;
+        }
+        if (currentFilters.courseCode) {
+            filterText += ` • Course Code: ${currentFilters.courseCode}`;
+        }
+        
+        filterResults.innerHTML = `<div class="filter-stats">${filterText}</div>`;
+    } else {
+        filterResults.innerHTML = `<div class="filter-stats">Showing all ${decks.length} decks</div>`;
+    }
+}
+
+function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('universityFilter').value = '';
+    document.getElementById('courseCodeFilter').value = '';
+    
+    currentFilters = {
+        search: '',
+        university: '',
+        courseCode: ''
+    };
+    
+    applyFilters();
 }
 
 async function downloadDeck(deckId, fileName, fileUrl) {
@@ -217,7 +325,6 @@ function showMessage(message, type = 'info') {
     const messageDiv = document.getElementById('uploadMessage');
     messageDiv.innerHTML = `<div class="${type}">${message}</div>`;
     
-    // Auto-hide success messages after 5 seconds
     if (type === 'success') {
         setTimeout(() => {
             messageDiv.innerHTML = '';
