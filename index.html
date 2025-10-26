@@ -128,47 +128,191 @@
 </head>
 <body>
 
-<!-- Compact University Ticker -->
-<div style="background: #0055a4; color: white; padding: 8px 0; overflow: hidden;">
-    <div style="display: flex; animation: scrollCompact 90s linear infinite;">
-        <div style="display: flex; white-space: nowrap; font-size: 14px;">
-            <span style="padding: 0 15px;">UofT</span>
-            <span style="padding: 0 15px;">UBC</span>
-            <span style="padding: 0 15px;">McGill</span>
-            <span style="padding: 0 15px;">Alberta</span>
-            <span style="padding: 0 15px;">Waterloo</span>
-            <span style="padding: 0 15px;">Calgary</span>
-            <span style="padding: 0 15px;">Ottawa</span>
-            <span style="padding: 0 15px;">Western</span>
-            <span style="padding: 0 15px;">Victoria</span>
-            <span style="padding: 0 15px;">Queen's</span>
-            <span style="padding: 0 15px;">Manitoba</span>
-            <span style="padding: 0 15px;">SFU</span>
-            <span style="padding: 0 15px;">Guelph</span>
-            <span style="padding: 0 15px;">Saskatchewan</span>
-            <span style="padding: 0 15px;">York</span>
-            <span style="padding: 0 15px;">Carleton</span>
-            <span style="padding: 0 15px;">Windsor</span>
-            <span style="padding: 0 15px;">UNB</span>
-            <span style="padding: 0 15px;">Dalhousie</span>
-            <span style="padding: 0 15px;">Regina</span>
-            <span style="padding: 0 15px;">Lethbridge</span>
-            <span style="padding: 0 15px;">Concordia</span>
+<!-- Enhanced Scrolling Universities Banner -->
+<div class="university-banner" style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); color: white; padding: 15px 0; overflow: hidden; position: relative;">
+    
+    <!-- Banner Label -->
+    <div style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; z-index: 3; backdrop-filter: blur(10px);">
+        <strong>🇨🇦 Canadian Universities</strong>
+    </div>
+    
+    <div class="banner-content" style="display: flex; animation: scrollBanner 150s linear infinite; margin-left: 180px;">
+        <!-- University Set 1 -->
+        <div style="display: flex; white-space: nowrap;">
+            <!-- Major Research Universities -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> University of Toronto
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> UBC
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> McGill University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> University of Alberta
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟠</span> University of Waterloo
+            </span>
+            
+            <!-- Ontario Universities -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Western University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> Queen's University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> University of Ottawa
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> York University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> McMaster University
+            </span>
+            
+            <!-- Western Canada -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟣</span> University of Calgary
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> University of Victoria
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> Simon Fraser University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> University of Manitoba
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> University of Saskatchewan
+            </span>
+            
+            <!-- Eastern Canada -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> Dalhousie University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> University of New Brunswick
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> Memorial University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> University of Prince Edward Island
+            </span>
+            
+            <!-- Quebec Universities -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> Université de Montréal
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Université Laval
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> Concordia University
+            </span>
+            
+            <!-- Additional Universities -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> Carleton University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> University of Guelph
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> University of Windsor
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> University of Regina
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> University of Lethbridge
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Thompson Rivers University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> University of Northern BC
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> Ryerson University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> Brock University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Trent University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟢</span> Lakehead University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> Laurentian University
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🟡</span> University of Winnipeg
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Brandon University
+            </span>
         </div>
-        <div style="display: flex; white-space: nowrap; font-size: 14px;">
-            <span style="padding: 0 15px;">UofT</span>
-            <span style="padding: 0 15px;">UBC</span>
-            <span style="padding: 0 15px;">McGill</span>
-            <!-- ... duplicate all ... -->
-            <span style="padding: 0 15px;">Concordia</span>
+        
+        <!-- Duplicate for seamless loop -->
+        <div style="display: flex; white-space: nowrap;">
+            <!-- Same content as above -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔴</span> University of Toronto
+            </span>
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> UBC
+            </span>
+            <!-- ... include all the same universities again ... -->
+            <span class="uni-item" style="padding: 0 20px; display: flex; align-items: center;">
+                <span style="margin-right: 8px;">🔵</span> Brandon University
+            </span>
         </div>
     </div>
 </div>
 
 <style>
-@keyframes scrollCompact {
+@keyframes scrollBanner {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+}
+
+.university-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to right, #1a2a6c, transparent);
+    z-index: 2;
+}
+
+.university-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to left, #fdbb2d, transparent);
+    z-index: 2;
+}
+
+.uni-item {
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.uni-item:hover {
+    opacity: 1;
+    transform: scale(1.05);
 }
 </style>
     
