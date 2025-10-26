@@ -1,0 +1,85 @@
+/* Simple clean styles */
+:root{
+  --bg:#f7f8fa;
+  --card:#fff;
+  --muted:#666;
+  --accent:#2b6cb0;
+  --radius:10px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:#222;
+  line-height:1.4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  padding:24px;
+}
+.site-header{
+  text-align:center;
+  margin-bottom:20px;
+}
+.site-header h1{margin:.2rem 0}
+.tagline{color:var(--muted); margin:0}
+
+.controls{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+#search{
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  min-width:220px;
+}
+.upload-help{
+  display:inline-block;
+  padding:10px 12px;
+  background:var(--accent);
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+}
+
+.decks-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
+  max-width:980px;
+  margin:0 auto 32px;
+}
+.deck{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:0 6px 18px rgba(20,20,40,0.06);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.deck h3{margin:0}
+.deck .meta{color:var(--muted); font-size:0.9rem}
+.deck .actions{
+  margin-top:auto;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+}
+.btn{
+  padding:8px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:white;
+  background:var(--accent);
+  font-weight:600;
+}
+.btn.secondary{
+  background:#edf2f7;
+  color:#111;
+}
+.loading{ text-align:center; color:var(--muted) }
+.site-footer{ text-align:center; color:var(--muted); margin-top:18px }
