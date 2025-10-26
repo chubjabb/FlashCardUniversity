@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlashCardUniversity — Anki decks</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>FlashCardUniversity</h1>
+    <p class="tagline">Free downloadable Anki decks</p>
+  </header>
+
+  <main id="main">
+    <section class="controls">
+      <input id="search" type="search" placeholder="Search decks..." />
+      <a class="upload-help" href="https://github.com/chubjabb/FlashCardUniversity/upload/main/decks" target="_blank" rel="noopener">Upload a deck (via GitHub)</a>
+      <button id="open-uploader" class="upload-help" title="Upload via website">Upload via site</button>
+    </section>
+
+    <section id="uploader" class="deck uploader" style="display:none; max-width:720px; margin:10px auto 18px;">
+      <div id="auth-area">
+        <button id="sign-in" class="btn">Sign in with Google</button>
+        <button id="sign-out" class="btn secondary" style="display:none;">Sign out</button>
+        <div id="user-info" style="margin-top:8px;color:var(--muted)"></div>
+      </div>
+
+      <hr />
+
+      <label>
+        Deck file (.apkg):
+        <input id="file-input" type="file" accept=".apkg,.anki,.zip" />
+      </label>
+
+      <label>
+        Title (optional):
+        <input id="deck-title" type="text" placeholder="My Deck Title" />
+      </label>
+
+      <label>
+        Description (optional):
+        <input id="deck-desc" type="text" placeholder="Short description" />
+      </label>
+
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button id="upload-btn" class="btn">Upload</button>
+        <div id="upload-status" class="meta" style="align-self:center"></div>
+      </div>
+
+      <progress id="upload-progress" value="0" max="100" style="width:100%; margin-top:8px; display:none"></progress>
+    </section>
+
+    <section id="decks" class="decks-grid">
+      <p class="loading">Loading decks…</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Host this site with GitHub Pages or Netlify. Uploaded decks are stored in Firebase Storage when configured.</small>
+  </footer>
+
+  <!-- Firebase SDKs (if you use the uploader, add your firebase-config.js file as shown below) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Optional: your Firebase config (create js/firebase-config.js from example) -->
+  <script src="js/firebase-config.js"></script>
+
+  <script src="js/uploader-firebase.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
