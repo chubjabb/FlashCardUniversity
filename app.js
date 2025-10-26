@@ -1,10 +1,14 @@
 // Global variables
 let decks = [];
 let supabaseClient;
+
+// Update currentFilters object - ADD SEMESTER AND YEAR HERE
 let currentFilters = {
     search: '',
     university: '',
-    courseCode: ''
+    courseCode: '',
+    semester: '',    // Add this line
+    year: ''         // Add this line
 };
 
 // Wait for the page to fully load before initializing Supabase
@@ -78,6 +82,8 @@ async function handleUpload(event) {
     const university = formData.get('university');
     const courseCode = formData.get('courseCode').toUpperCase();
     const courseName = formData.get('courseName');
+    const semester = formData.get('semester');
+    const year = parseInt(formData.get('year'));
     const description = formData.get('description');
     const fileInput = document.querySelector('input[name="ankiFile"]');
     
@@ -130,6 +136,8 @@ async function handleUpload(event) {
                     university: university,
                     course_code: courseCode,
                     course_name: courseName,
+                    semester: semester,
+                    year: year,
                     description: description,
                     file_name: file.name,
                     file_url: publicUrl,
@@ -212,6 +220,20 @@ function applyFilters() {
         );
     }
     
+    // Apply semester filter
+    if (currentFilters.semester) {
+        filteredDecks = filteredDecks.filter(deck => 
+            deck.semester === currentFilters.semester
+        );
+    }
+    
+    // Apply year filter
+    if (currentFilters.year) {
+        filteredDecks = filteredDecks.filter(deck => 
+            deck.year.toString() === currentFilters.year
+        );
+    }
+    
     renderDecks(filteredDecks);
     updateFilterStats(filteredDecks);
 }
@@ -238,6 +260,7 @@ function renderDecks(decksToRender) {
                     <div class="deck-meta">
                         <span class="university-badge">${escapeHtml(deck.university)}</span>
                         <span class="course-badge"><strong>${escapeHtml(deck.course_code)}</strong>: ${escapeHtml(deck.course_name)}</span>
+                        <span class="semester-badge">${deck.semester} ${deck.year}</span>
                     </div>
                 </div>
             </div>
@@ -258,7 +281,7 @@ function renderDecks(decksToRender) {
 function updateFilterStats(filteredDecks) {
     const filterResults = document.getElementById('filterResults');
     
-    if (currentFilters.search || currentFilters.university || currentFilters.courseCode) {
+    if (currentFilters.search || currentFilters.university || currentFilters.courseCode || currentFilters.semester || currentFilters.year) {
         const totalDecks = decks.length;
         const showingDecks = filteredDecks.length;
         
@@ -273,6 +296,12 @@ function updateFilterStats(filteredDecks) {
         if (currentFilters.courseCode) {
             filterText += ` • Course Code: ${currentFilters.courseCode}`;
         }
+        if (currentFilters.semester) {
+            filterText += ` • Semester: ${currentFilters.semester}`;
+        }
+        if (currentFilters.year) {
+            filterText += ` • Year: ${currentFilters.year}`;
+        }
         
         filterResults.innerHTML = `<div class="filter-stats">${filterText}</div>`;
     } else {
@@ -284,11 +313,15 @@ function clearFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('universityFilter').value = '';
     document.getElementById('courseCodeFilter').value = '';
+    document.getElementById('semesterFilter').value = '';
+    document.getElementById('yearFilter').value = '';
     
     currentFilters = {
         search: '',
         university: '',
-        courseCode: ''
+        courseCode: '',
+        semester: '',
+        year: ''
     };
     
     applyFilters();
