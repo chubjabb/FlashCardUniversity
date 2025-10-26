@@ -109,7 +109,49 @@
             <option value="University of Lethbridge">University of Lethbridge</option>
             <option value="Other">Other Canadian University</option>
         </select>
+
+<!-- Search and Filter Section -->
+<div class="search-filter">
+    <h2>🔍 Find Decks</h2>
+    
+    <div class="filter-controls">
+        <input type="text" id="searchInput" placeholder="Search by course name, code, or description..." style="width: 100%; padding: 10px; margin: 10px 0;">
         
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
+            <select id="universityFilter">
+                <option value="">All Universities</option>
+                <option value="University of Toronto">University of Toronto</option>
+                <option value="University of British Columbia">University of British Columbia</option>
+                <option value="McGill University">McGill University</option>
+                <option value="University of Alberta">University of Alberta</option>
+                <option value="University of Waterloo">University of Waterloo</option>
+                <option value="University of Calgary">University of Calgary</option>
+                <option value="University of Ottawa">University of Ottawa</option>
+                <option value="Western University">Western University</option>
+                <option value="University of Victoria">University of Victoria</option>
+                <option value="Queen's University">Queen's University</option>
+                <option value="University of Manitoba">University of Manitoba</option>
+                <option value="Simon Fraser University">Simon Fraser University</option>
+                <option value="University of Guelph">University of Guelph</option>
+                <option value="University of Saskatchewan">University of Saskatchewan</option>
+                <option value="York University">York University</option>
+                <option value="Carleton University">Carleton University</option>
+                <option value="University of Windsor">University of Windsor</option>
+                <option value="University of New Brunswick">University of New Brunswick</option>
+                <option value="Dalhousie University">Dalhousie University</option>
+                <option value="University of Regina">University of Regina</option>
+                <option value="University of Lethbridge">University of Lethbridge</option>
+                <option value="Other">Other Canadian University</option>
+            </select>
+            
+            <input type="text" id="courseCodeFilter" placeholder="Filter by course code...">
+        </div>
+        
+        <button onclick="clearFilters()" style="background: #666;">Clear Filters</button>
+    </div>
+    
+    <div id="filterResults" style="margin: 10px 0; font-size: 0.9em; color: #666;"></div>
+</div>
         <input type="text" name="courseCode" placeholder="Course Code (e.g., BIO101, PSY100)" required>
         <input type="text" name="courseName" placeholder="Course Name (e.g., Introduction to Biology)" required>
         
