@@ -3,31 +3,97 @@
 <head>
     <title>Anki Deck Sharing</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .deck { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
-        .upload-form { margin: 20px 0; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .deck { 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .upload-form { 
+            margin: 30px 0; 
+            padding: 25px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background: #f0f8ff;
+        }
+        button { 
+            background: #007cba; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover { background: #005a87; }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            color: green;
+            background: #e6ffe6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .stats {
+            font-size: 0.9em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <h1>Anki Deck Sharing</h1>
+    <h1>🔖 Anki Deck Sharing Platform</h1>
+    <p>Share and discover pre-made Anki decks with the community!</p>
     
     <!-- Upload Form -->
     <div class="upload-form">
-        <h2>Upload Anki Deck</h2>
-        <form name="anki-upload" method="POST" data-netlify="true" enctype="multipart/form-data">
-            <input type="text" name="deck-name" placeholder="Deck Name" required><br><br>
-            <input type="text" name="description" placeholder="Description" required><br><br>
-            <input type="file" name="anki-file" accept=".apkg" required><br><br>
-            <button type="submit">Upload Deck</button>
+        <h2>📤 Upload New Anki Deck</h2>
+        <form id="uploadForm">
+            <input type="text" name="deckName" placeholder="Deck Name (e.g., 'Spanish Vocabulary')" required>
+            <textarea name="description" placeholder="Deck Description (what topics does it cover? how many cards?)" required></textarea>
+            <input type="file" name="ankiFile" accept=".apkg,.anki2" required>
+            <button type="submit" id="uploadButton">Upload Deck</button>
         </form>
+        <div id="uploadMessage"></div>
     </div>
 
     <!-- Deck List -->
     <div id="decks-container">
-        <h2>Available Decks</h2>
-        <div id="decks-list"></div>
+        <h2>📚 Available Decks</h2>
+        <div id="decks-list" class="loading">Loading decks...</div>
     </div>
 
+    <!-- Add Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
 </body>
 </html>
