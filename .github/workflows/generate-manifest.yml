@@ -1,0 +1,32 @@
+name: Generate decks manifest
+on:
+  push:
+    paths:
+      - 'decks/**'
+      - 'scripts/generate-manifest.js'
+      - '.github/workflows/generate-manifest.yml'
+      - 'decks/**' 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Install deps (none required)
+        run: npm ci || echo "no package.json"
+      - name: Generate decks.json
+        run: node scripts/generate-manifest.js
+      - name: Commit manifest if changed
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions
+          author_email: github-actions@github.com
+          message: "chore: update decks.json manifest"
+          add: "decks.json"
+          push: true
