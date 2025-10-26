@@ -1,18 +1,50 @@
-// Initialize Supabase - REPLACE THESE WITH YOUR ACTUAL VALUES!
-const supabaseUrl = 'https://ssvirocnzzunatlrqlnf.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzdmlyb2Nuenp1bmF0bHJxbG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0OTU0NzQsImV4cCI6MjA3NzA3MTQ3NH0.Bt5lH4jH2hkOO5zW3b4KCQyCltNp_fdMJ4Ib8PRu3oU';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
 // Global variables
 let decks = [];
+let supabaseClient;
 
+// Wait for the page to fully load before initializing Supabase
 document.addEventListener('DOMContentLoaded', function() {
-    loadDecks();
-    document.getElementById('uploadForm').addEventListener('submit', handleUpload);
+    initializeApp();
 });
+
+async function initializeApp() {
+    try {
+        // Initialize Supabase - REPLACE THESE WITH YOUR ACTUAL VALUES!
+        const supabaseUrl = 'https://ssvirocnzzunatlrqlnf.supabase.co'; // Replace with your Supabase URL
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzdmlyb2Nuenp1bmF0bHJxbG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0OTU0NzQsImV4cCI6MjA3NzA3MTQ3NH0.Bt5lH4jH2hkOO5zW3b4KCQyCltNp_fdMJ4Ib8PRu3oU'; // Replace with your Supabase anon key
+        
+        // Create Supabase client
+        supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Test connection
+        const { data, error } = await supabaseClient
+            .from('decks')
+            .select('*')
+            .limit(1);
+            
+        if (error) {
+            console.error('Supabase connection failed:', error);
+            showMessage('❌ Database connection failed', 'error');
+        } else {
+            console.log('Supabase connected successfully!');
+            // Load decks and set up event listeners
+            loadDecks();
+            document.getElementById('uploadForm').addEventListener('submit', handleUpload);
+        }
+    } catch (error) {
+        console.error('Initialization error:', error);
+        showMessage('❌ Failed to initialize app', 'error');
+    }
+}
 
 async function handleUpload(event) {
     event.preventDefault();
+    
+    // Check if Supabase is initialized
+    if (!supabaseClient) {
+        showMessage('❌ App not ready yet. Please wait...', 'error');
+        return;
+    }
     
     const uploadButton = document.getElementById('uploadButton');
     const uploadMessage = document.getElementById('uploadMessage');
@@ -52,19 +84,19 @@ async function handleUpload(event) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
         
-        const { data: fileData, error: uploadError } = await supabase.storage
+        const { data: fileData, error: uploadError } = await supabaseClient.storage
             .from('anki-decks')
             .upload(fileName, file);
         
         if (uploadError) throw uploadError;
         
         // Step 2: Get public URL for the file
-        const { data: { publicUrl } } = supabase.storage
+        const { data: { publicUrl } } = supabaseClient.storage
             .from('anki-decks')
             .getPublicUrl(fileName);
         
         // Step 3: Save deck info to database
-        const { data: deckData, error: dbError } = await supabase
+        const { data: deckData, error: dbError } = await supabaseClient
             .from('decks')
             .insert([
                 {
@@ -99,10 +131,16 @@ async function handleUpload(event) {
 async function loadDecks() {
     const decksList = document.getElementById('decks-list');
     
+    // Check if Supabase is initialized
+    if (!supabaseClient) {
+        decksList.innerHTML = '<div class="error">App not ready yet</div>';
+        return;
+    }
+    
     try {
         decksList.innerHTML = '<div class="loading">Loading decks...</div>';
         
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('decks')
             .select('*')
             .order('created_at', { ascending: false });
@@ -151,7 +189,7 @@ function renderDecks() {
 async function downloadDeck(deckId, fileName, fileUrl) {
     try {
         // Increment download count
-        const { error } = await supabase
+        const { error } = await supabaseClient
             .from('decks')
             .update({ download_count: (decks.find(d => d.id === deckId).download_count || 0) + 1 })
             .eq('id', deckId);
