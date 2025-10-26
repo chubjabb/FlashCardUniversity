@@ -127,6 +127,51 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+
+<!-- Compact University Ticker -->
+<div style="background: #0055a4; color: white; padding: 8px 0; overflow: hidden;">
+    <div style="display: flex; animation: scrollCompact 90s linear infinite;">
+        <div style="display: flex; white-space: nowrap; font-size: 14px;">
+            <span style="padding: 0 15px;">UofT</span>
+            <span style="padding: 0 15px;">UBC</span>
+            <span style="padding: 0 15px;">McGill</span>
+            <span style="padding: 0 15px;">Alberta</span>
+            <span style="padding: 0 15px;">Waterloo</span>
+            <span style="padding: 0 15px;">Calgary</span>
+            <span style="padding: 0 15px;">Ottawa</span>
+            <span style="padding: 0 15px;">Western</span>
+            <span style="padding: 0 15px;">Victoria</span>
+            <span style="padding: 0 15px;">Queen's</span>
+            <span style="padding: 0 15px;">Manitoba</span>
+            <span style="padding: 0 15px;">SFU</span>
+            <span style="padding: 0 15px;">Guelph</span>
+            <span style="padding: 0 15px;">Saskatchewan</span>
+            <span style="padding: 0 15px;">York</span>
+            <span style="padding: 0 15px;">Carleton</span>
+            <span style="padding: 0 15px;">Windsor</span>
+            <span style="padding: 0 15px;">UNB</span>
+            <span style="padding: 0 15px;">Dalhousie</span>
+            <span style="padding: 0 15px;">Regina</span>
+            <span style="padding: 0 15px;">Lethbridge</span>
+            <span style="padding: 0 15px;">Concordia</span>
+        </div>
+        <div style="display: flex; white-space: nowrap; font-size: 14px;">
+            <span style="padding: 0 15px;">UofT</span>
+            <span style="padding: 0 15px;">UBC</span>
+            <span style="padding: 0 15px;">McGill</span>
+            <!-- ... duplicate all ... -->
+            <span style="padding: 0 15px;">Concordia</span>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes scrollCompact {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+</style>
+    
     <h1>🔖 Anki Deck Sharing Platform</h1>
     <p>Share and discover pre-made Anki decks with the community!</p>
     
