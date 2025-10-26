@@ -1,0 +1,9 @@
+[
+  {
+    "filename": "example-deck.apkg",
+    "title": "Example Deck — Basic Facts",
+    "description": "A tiny example deck to demonstrate layout.",
+    "size": 12345,
+    "url": "decks/example-deck.apkg"
+  }
+]
