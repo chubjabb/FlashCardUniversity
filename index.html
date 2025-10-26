@@ -98,5 +98,117 @@
 
     <!-- Load your app.js AFTER Supabase -->
     <script src="app.js"></script>
+<!-- Add this right before the closing </body> tag in your index.html -->
+<div id="adminPanel" style="display: none; border: 2px solid #ff4444; padding: 20px; margin: 20px 0; background: #fff0f0;">
+    <h3>🔧 Admin Panel</h3>
+    <div>
+        <button onclick="deleteAllDecks()" style="background: #ff4444;">🗑️ Delete All Decks</button>
+        <button onclick="exportDeckData()" style="background: #44aa44;">📊 Export Data</button>
+        <button onclick="toggleAdminMode()" style="background: #666;">❌ Exit Admin</button>
+    </div>
+    <div id="adminStats" style="margin-top: 10px; font-size: 0.9em;"></div>
+</div>
+
+<script>
+// Add these functions to your app.js
+
+function updateAdminPanel() {
+    const adminPanel = document.getElementById('adminPanel');
+    const adminStats = document.getElementById('adminStats');
+    
+    if (isAdminMode()) {
+        adminPanel.style.display = 'block';
+        adminStats.innerHTML = `
+            Total Decks: ${decks.length}<br>
+            Total Downloads: ${decks.reduce((sum, deck) => sum + (deck.download_count || 0), 0)}
+        `;
+    } else {
+        adminPanel.style.display = 'none';
+    }
+}
+
+async function deleteAllDecks() {
+    if (!confirm('🚨 DANGER! This will delete ALL decks permanently! Are you absolutely sure?')) {
+        return;
+    }
+    
+    if (!prompt('Type "DELETE ALL" to confirm:') === 'DELETE ALL') {
+        alert('Cancelled');
+        return;
+    }
+    
+    try {
+        // Get all decks first
+        const { data: allDecks, error: fetchError } = await supabaseClient
+            .from('decks')
+            .select('*');
+        
+        if (fetchError) throw fetchError;
+        
+        // Delete all files from storage
+        const fileNames = allDecks.map(deck => {
+            const fileUrl = deck.file_url;
+            return fileUrl.split('/').pop();
+        });
+        
+        if (fileNames.length > 0) {
+            const { error: storageError } = await supabaseClient.storage
+                .from('anki-decks')
+                .remove(fileNames);
+            
+            if (storageError) console.error('Storage deletion errors:', storageError);
+        }
+        
+        // Delete all database records
+        const { error: dbError } = await supabaseClient
+            .from('decks')
+            .delete()
+            .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+        
+        if (dbError) throw dbError;
+        
+        alert(`Successfully deleted ${allDecks.length} decks!`);
+        loadDecks();
+        
+    } catch (error) {
+        console.error('Delete all error:', error);
+        alert('Error deleting all decks: ' + error.message);
+    }
+}
+
+function exportDeckData() {
+    const dataStr = JSON.stringify(decks, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `anki-decks-export-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+}
+
+// Update your existing functions
+function toggleAdminMode() {
+    const password = prompt("Enter admin password:");
+    if (password === ADMIN_PASSWORD) {
+        const currentlyAdmin = isAdminMode();
+        localStorage.setItem('admin-mode', !currentlyAdmin);
+        alert(`Admin mode ${!currentlyAdmin ? 'enabled' : 'disabled'}`);
+        loadDecks();
+        updateAdminPanel();
+    } else if (password) {
+        alert("Incorrect password");
+    }
+}
+
+// Update loadDecks to refresh admin panel
+async function loadDecks() {
+    // ... your existing loadDecks code ...
+    
+    // Add this at the end of the function, after renderDecks():
+    if (isAdminMode()) {
+        updateAdminPanel();
+    }
+}
+</script>
 </body>
 </html>
