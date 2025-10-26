@@ -173,7 +173,7 @@ function hideQuickGuide() {
 }
 </script>
     
-    <!-- Upload Form -->
+<!-- Upload Form -->
 <div class="upload-form">
     <h2>📤 Upload New Anki Deck</h2>
     <form id="uploadForm">
@@ -204,6 +204,36 @@ function hideQuickGuide() {
             <option value="University of Lethbridge">University of Lethbridge</option>
             <option value="Other">Other Canadian University</option>
         </select>
+        
+        <input type="text" name="courseCode" placeholder="Course Code (e.g., BIO101, PSY100)" required>
+        <input type="text" name="courseName" placeholder="Course Name (e.g., Introduction to Biology)" required>
+        
+        <!-- Semester and Year Selection -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <select name="semester" required style="padding: 10px;">
+                <option value="">Select Semester</option>
+                <option value="Winter">Winter</option>
+                <option value="Fall">Fall</option>
+                <option value="Summer">Summer</option>
+            </select>
+            
+            <select name="year" required style="padding: 10px;">
+                <option value="">Select Year</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
+        
+        <textarea name="description" placeholder="Deck Description (topics covered, number of cards, etc.)" required></textarea>
+        <input type="file" name="ankiFile" accept=".apkg,.anki2" required>
+        
+        <button type="submit" id="uploadButton">Upload Deck</button>
+    </form>
+    <div id="uploadMessage"></div>
+</div>
 
 <!-- Search and Filter Section -->
 <div class="search-filter">
@@ -241,29 +271,31 @@ function hideQuickGuide() {
             
             <input type="text" id="courseCodeFilter" placeholder="Filter by course code...">
         </div>
+
+        <!-- Semester and Year Filters -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0;">
+            <select id="semesterFilter">
+                <option value="">Any Semester</option>
+                <option value="Winter">Winter</option>
+                <option value="Fall">Fall</option>
+                <option value="Summer">Summer</option>
+            </select>
+            
+            <select id="yearFilter">
+                <option value="">Any Year</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
         
         <button onclick="clearFilters()" style="background: #666;">Clear Filters</button>
     </div>
     
     <div id="filterResults" style="margin: 10px 0; font-size: 0.9em; color: #666;"></div>
 </div>
-        <input type="text" name="courseCode" placeholder="Course Code (e.g., BIO101, PSY100)" required>
-        <input type="text" name="courseName" placeholder="Course Name (e.g., Introduction to Biology)" required>
-        
-        <textarea name="description" placeholder="Deck Description (topics covered, number of cards, etc.)" required></textarea>
-        <input type="file" name="ankiFile" accept=".apkg,.anki2" required>
-        
-        <button type="submit" id="uploadButton">Upload Deck</button>
-    </form>
-    <div id="uploadMessage"></div>
-</div>
-
-    <!-- Deck List -->
-    <div id="decks-container">
-        <h2>📚 Available Decks</h2>
-        <div id="decks-list" class="loading">Loading...</div>
-    </div>
-
     <!-- Load your app.js AFTER Supabase -->
     <script src="app.js"></script>
 
