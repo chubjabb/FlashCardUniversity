@@ -1,75 +1,33 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FlashCardUniversity — Anki decks</title>
-  <link rel="stylesheet" href="css/styles.css" />
+    <title>Anki Deck Sharing</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .deck { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .upload-form { margin: 20px 0; }
+    </style>
 </head>
 <body>
-  <header class="site-header">
-    <h1>FlashCardUniversity</h1>
-    <p class="tagline">Free downloadable Anki decks</p>
-  </header>
+    <h1>Anki Deck Sharing</h1>
+    
+    <!-- Upload Form -->
+    <div class="upload-form">
+        <h2>Upload Anki Deck</h2>
+        <form name="anki-upload" method="POST" data-netlify="true" enctype="multipart/form-data">
+            <input type="text" name="deck-name" placeholder="Deck Name" required><br><br>
+            <input type="text" name="description" placeholder="Description" required><br><br>
+            <input type="file" name="anki-file" accept=".apkg" required><br><br>
+            <button type="submit">Upload Deck</button>
+        </form>
+    </div>
 
-  <main id="main">
-    <section class="controls">
-      <input id="search" type="search" placeholder="Search decks..." />
-      <a class="upload-help" href="https://github.com/chubjabb/FlashCardUniversity/upload/main/decks" target="_blank" rel="noopener">Upload a deck (via GitHub)</a>
-      <button id="open-uploader" class="upload-help" title="Upload via website">Upload via site</button>
-    </section>
+    <!-- Deck List -->
+    <div id="decks-container">
+        <h2>Available Decks</h2>
+        <div id="decks-list"></div>
+    </div>
 
-    <section id="uploader" class="deck uploader" style="display:none; max-width:720px; margin:10px auto 18px;">
-      <div id="auth-area">
-        <button id="sign-in" class="btn">Sign in with Google</button>
-        <button id="sign-out" class="btn secondary" style="display:none;">Sign out</button>
-        <div id="user-info" style="margin-top:8px;color:var(--muted)"></div>
-      </div>
-
-      <hr />
-
-      <label>
-        Deck file (.apkg):
-        <input id="file-input" type="file" accept=".apkg,.anki,.zip" />
-      </label>
-
-      <label>
-        Title (optional):
-        <input id="deck-title" type="text" placeholder="My Deck Title" />
-      </label>
-
-      <label>
-        Description (optional):
-        <input id="deck-desc" type="text" placeholder="Short description" />
-      </label>
-
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button id="upload-btn" class="btn">Upload</button>
-        <div id="upload-status" class="meta" style="align-self:center"></div>
-      </div>
-
-      <progress id="upload-progress" value="0" max="100" style="width:100%; margin-top:8px; display:none"></progress>
-    </section>
-
-    <section id="decks" class="decks-grid">
-      <p class="loading">Loading decks…</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <small>Host this site with GitHub Pages or Netlify. Uploaded decks are stored in Firebase Storage when configured.</small>
-  </footer>
-
-  <!-- Firebase SDKs (if you use the uploader, add your firebase-config.js file as shown below) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <!-- Optional: your Firebase config (create js/firebase-config.js from example) -->
-  <script src="js/firebase-config.js"></script>
-
-  <script src="js/uploader-firebase.js"></script>
-  <script src="js/main.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
