@@ -380,4 +380,25 @@ function escapeHtml(unsafe) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+function showMessage(message, type = 'info') {
+    const messageDiv = document.getElementById('uploadMessage');
+    
+    // Check if the element exists before trying to use it
+    if (!messageDiv) {
+        console.error('uploadMessage element not found on page');
+        // Fallback: use alert or console.log
+        alert(`${type}: ${message}`);
+        return;
+    }
+    
+    messageDiv.innerHTML = `<div class="${type}">${message}</div>`;
+    
+    // Auto-hide success messages after 5 seconds
+    if (type === 'success') {
+        setTimeout(() => {
+            if (messageDiv) {
+                messageDiv.innerHTML = '';
+            }
+        }, 5000);
+    }
 }
