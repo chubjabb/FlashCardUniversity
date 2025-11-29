@@ -18,6 +18,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function initializeApp() {
     try {
+        console.log('Initializing app...');
+
+        // Debug: Check if key elements exist
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadMessage = document.getElementById('uploadMessage');
+        const uploadButton = document.getElementById('uploadButton');
+
+        console.log('uploadForm exists:', !!uploadForm);
+        console.log('uploadMessage exists:', !!uploadMessage);
+        console.log('uploadButton exists:', !!uploadButton);
+
+        if (!uploadMessage) {
+            console.error('CRITICAL: uploadMessage element not found!');
+            // Create it dynamically as a fallback
+            const form = document.getElementById('uploadForm');
+            if (form) {
+                const messageDiv = document.createElement('div');
+                messageDiv.id = 'uploadMessage';
+                form.parentNode.insertBefore(messageDiv, form.nextSibling);
+                console.log('Created uploadMessage element dynamically');
+            }
+        }
         // Initialize Supabase - REPLACE THESE WITH YOUR ACTUAL VALUES!
         const supabaseUrl = 'https://ssvirocnzzunatlrqlnf.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzdmlyb2Nuenp1bmF0bHJxbG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0OTU0NzQsImV4cCI6MjA3NzA3MTQ3NH0.Bt5lH4jH2hkOO5zW3b4KCQyCltNp_fdMJ4Ib8PRu3oU';
